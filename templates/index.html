@@ -2,31 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Monitor de Sensores</title>
+  <title>Panel IoT</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+    h1 { color: #333; }
+    .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; max-width: 400px; }
+  </style>
 </head>
 <body>
-  <h1>Datos del ESP32</h1>
-  <p>Temperatura: <span id="temp">--</span> °C</p>
-  <p>Humedad: <span id="hum">--</span> %</p>
-  <p>Ruido: <span id="ruido">--</span> dB</p>
-  <p>Luz: <span id="luz">--</span> lx</p>
-
-  <script>
-    function actualizarDatos() {
-      fetch('/api/datos')
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('temp').textContent = data.temperatura ?? '--';
-          document.getElementById('hum').textContent = data.humedad ?? '--';
-          document.getElementById('ruido').textContent = data.ruido ?? '--';
-          document.getElementById('luz').textContent = data.luz ?? '--';
-        })
-        .catch(err => console.error('Error al obtener datos:', err));
-    }
-
-    // Llama cada 2 segundos
-    setInterval(actualizarDatos, 2000);
-    actualizarDatos(); // Llamada inicial
-  </script>
+  <h1>Últimos datos del Arduino</h1>
+  <div class="card">
+    <p><strong>Temperatura:</strong> {{ datos.get("temperatura", "Sin datos") }}</p>
+    <p><strong>Humedad:</strong> {{ datos.get("humedad", "Sin datos") }}</p>
+    <p><strong>Ruido:</strong> {{ datos.get("ruido", "Sin datos") }}</p>
+    <p><strong>Luz:</strong> {{ datos.get("luz", "Sin datos") }}</p>
+  </div>
 </body>
 </html>
